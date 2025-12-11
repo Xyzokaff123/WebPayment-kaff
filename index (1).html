@@ -1,0 +1,201 @@
+<!doctype html>
+
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Xyzokaff — Payment</title>
+  <style>
+    :root{
+      --navy:#05204a; /* dark navy */
+      --sky:#2ea8f2;  /* light blue */
+      --bg:#f6fbff;
+      --card:#ffffff;
+      --accent:#0b66c3;
+      --muted:#5b6b80;
+    }
+    *{box-sizing:border-box}
+    body{font-family:Inter,system-ui,Segoe UI,Roboto,"Helvetica Neue",Arial; margin:0; background:linear-gradient(180deg,var(--bg),#e9f5ff); color:#0b2540}
+    header{background:linear-gradient(90deg,var(--navy),var(--sky)); color:white; padding:20px}
+    .container{max-width:980px;margin:24px auto;padding:16px}
+    .brand{display:flex;gap:12px;align-items:center}
+    .logo{width:56px;height:56px;border-radius:10px;background:rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;font-weight:700}
+    h1{margin:0;font-size:20px}
+    .subtitle{opacity:0.9;font-size:13px}.grid{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px}
+.card{background:var(--card);border-radius:12px;padding:16px;box-shadow:0 6px 18px rgba(10,30,60,0.08)}
+
+.price-list ul{list-style:none;padding:0;margin:0}
+.price-list li{display:flex;justify-content:space-between;padding:12px 8px;border-bottom:1px dashed #eef6ff}
+.price-list li:last-child{border-bottom:none}
+.price-name{font-weight:600}
+.price-value{font-weight:700}
+
+.actions{display:flex;gap:8px;margin-top:12px}
+button{cursor:pointer;border:0;border-radius:8px;padding:10px 12px;font-weight:600}
+.buy{background:var(--accent);color:white}
+.secondary{background:#eef6ff;color:var(--accent)}
+
+.right-sidebar{position:relative}
+.qris-preview{height:220px;border-radius:8px;border:2px dashed #dbeeff;display:flex;align-items:center;justify-content:center;background:#fafcff;overflow:hidden}
+.qris-preview img{max-width:100%;max-height:100%;object-fit:contain}
+.upload-row{display:flex;gap:8px;margin-top:12px;align-items:center}
+input[type=file]{display:block}
+
+.payment-info{margin-top:14px;font-size:14px}
+.payment-info b{display:block}
+.copy{background:#f3fbff;border:1px solid #e1f0ff;padding:8px;border-radius:8px;margin-top:8px}
+
+footer{text-align:center;padding:22px 8px;color:var(--muted);font-size:13px}
+
+/* modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(4,10,20,0.45);display:none;align-items:center;justify-content:center}
+.modal{background:white;border-radius:12px;padding:18px;max-width:520px;width:94%;box-shadow:0 10px 30px rgba(8,20,40,0.35)}
+.modal h3{margin-top:0}
+.field{margin:6px 0}
+.small{font-size:13px;color:var(--muted)}
+
+@media (max-width:880px){.grid{grid-template-columns:1fr;}.right-sidebar{order:-1}}
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container brand">
+      <div class="logo">XK</div>
+      <div>
+        <h1>Xyzokaff Store — Payment</h1>
+        <div class="subtitle">Pembayaran cepat — DANA: <strong>083103691038</strong></div>
+      </div>
+    </div>
+  </header>  <main class="container">
+    <div class="grid">
+      <section class="card">
+        <h2>Price List</h2>
+        <p class="small">Pilih produk di bawah lalu tekan "Bayar" untuk melihat instruksi pembayaran.</p><div class="price-list" style="margin-top:12px">
+      <ul id="products">
+        <li data-price="5000"><span class="price-name">SC P.O</span><span class="price-value">Rp 5.000</span><div class="actions"><button class="buy" data-key="SC P.O">Bayar</button></div></li>
+        <li data-price="15000"><span class="price-name">NO UP</span><span class="price-value">Rp 15.000</span><div class="actions"><button class="buy" data-key="NO UP">Bayar</button></div></li>
+        <li data-price="20000"><span class="price-name">FULL UP</span><span class="price-value">Rp 20.000</span><div class="actions"><button class="buy" data-key="FULL UP">Bayar</button></div></li>
+        <li data-price="30000"><span class="price-name">PT</span><span class="price-value">Rp 30.000</span><div class="actions"><button class="buy" data-key="PT">Bayar</button></div></li>
+        <li data-price="40000"><span class="price-name">TK</span><span class="price-value">Rp 40.000</span><div class="actions"><button class="buy" data-key="TK">Bayar</button></div></li>
+        <li data-price="50000"><span class="price-name">OWN</span><span class="price-value">Rp 50.000</span><div class="actions"><button class="buy" data-key="OWN">Bayar</button></div></li>
+        <li data-price="75000"><span class="price-name">SVIP</span><span class="price-value">Rp 75.000</span><div class="actions"><button class="buy" data-key="SVIP">Bayar</button></div></li>
+      </ul>
+    </div>
+
+    <hr style="margin:16px 0;border:none;border-top:1px solid #eef6ff" />
+    <h3>Instruksi singkat</h3>
+    <ol style="padding-left:18px">
+      <li>Pilih produk lalu tekan "Bayar".</li>
+      <li>Upload/cek gambar QRIS di sebelah kanan (opsional).</li>
+      <li>Transfer via DANA ke <strong>083103691038</strong> atau scan QRIS.</li>
+      <li>Konfirmasi pembayaran ke kontak yang tersedia.</li>
+    </ol>
+
+  </section>
+
+  <aside class="card right-sidebar">
+    <h3>QRIS & Informasi Pembayaran</h3>
+    <div class="qris-preview" id="qrisPreview">
+      <div style="text-align:center;padding:12px;color:var(--muted)">
+        <div style="font-weight:700">QRIS Preview</div>
+        <div class="small">(upload foto QRIS di bawah)</div>
+      </div>
+    </div>
+
+    <div class="upload-row">
+      <label style="display:flex;flex-direction:column;gap:8px">
+        <span class="small">Upload foto QRIS</span>
+        <input type="file" id="qrisFile" accept="image/*">
+      </label>
+    </div>
+
+    <div class="payment-info">
+      <div><b>Metode:</b> DANA</div>
+      <div><b>Nomor:</b> <span id="danaNumber">083103691038</span></div>
+      <div class="copy small">Klik tombol Bayar di daftar produk untuk melihat rincian pembayaran lengkap dan tombol salin.</div>
+    </div>
+
+    <div style="margin-top:12px;display:flex;gap:8px">
+      <button id="copyDana" class="secondary">Salin Nomor</button>
+      <button id="helpBtn" class="secondary">Butuh Bantuan</button>
+    </div>
+
+  </aside>
+</div>
+
+  </main>  <footer>
+    © Xyzokaff • Simple payment page — Buat untuk penggunaan non-komersial dan percobaan.
+  </footer>  <!-- Modal -->  <div class="modal-backdrop" id="modalBackdrop">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h3 id="modalTitle">Rincian Pembayaran</h3>
+      <div class="field"><strong>Produk:</strong> <span id="modalProduct">-</span></div>
+      <div class="field"><strong>Jumlah:</strong> <span id="modalPrice">-</span></div>
+      <div class="field small">Transfer ke DANA <b>083103691038</b> atau scan QRIS jika tersedia.</div><div style="margin-top:12px;display:flex;gap:8px">
+    <button id="confirmCopy" class="buy">Salin Nomor & Selesai</button>
+    <button id="closeModal" class="secondary">Tutup</button>
+  </div>
+</div>
+
+  </div>  <script>
+    // basic interactions
+    const buys = document.querySelectorAll('.buy');
+    const backdrop = document.getElementById('modalBackdrop');
+    const modalProduct = document.getElementById('modalProduct');
+    const modalPrice = document.getElementById('modalPrice');
+    const dana = '083103691038';
+
+    buys.forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        const li = btn.closest('li');
+        const name = btn.dataset.key || li.querySelector('.price-name').innerText;
+        const price = Number(li.dataset.price) || 0;
+        modalProduct.innerText = name;
+        modalPrice.innerText = 'Rp ' + price.toLocaleString('id-ID');
+        backdrop.style.display = 'flex';
+      });
+    });
+
+    document.getElementById('closeModal').addEventListener('click',()=>backdrop.style.display='none');
+    backdrop.addEventListener('click', (e)=>{ if(e.target===backdrop) backdrop.style.display='none' });
+
+    document.getElementById('confirmCopy').addEventListener('click', ()=>{
+      navigator.clipboard?.writeText(dana).then(()=>{
+        alert('Nomor DANA disalin: ' + dana);
+        backdrop.style.display='none';
+      }).catch(()=>{
+        prompt('Salin nomor DANA manual:', dana);
+      })
+    });
+
+    document.getElementById('copyDana').addEventListener('click', ()=>{
+      navigator.clipboard?.writeText(dana).then(()=>{
+        alert('Nomor DANA disalin: ' + dana);
+      }).catch(()=>{
+        prompt('Salin nomor DANA manual:', dana);
+      })
+    });
+
+    document.getElementById('helpBtn').addEventListener('click', ()=>{
+      alert('Butuh bantuan? Hubungi admin Xyzokaff dan konfirmasi setelah transfer.');
+    });
+
+    // QRIS preview
+    const qrisFile = document.getElementById('qrisFile');
+    const qrisPreview = document.getElementById('qrisPreview');
+    qrisFile.addEventListener('change', ()=>{
+      const file = qrisFile.files && qrisFile.files[0];
+      if(!file) return;
+      const img = document.createElement('img');
+      img.alt = 'QRIS';
+      const reader = new FileReader();
+      reader.onload = e=>{
+        qrisPreview.innerHTML = '';
+        img.src = e.target.result;
+        qrisPreview.appendChild(img);
+      };
+      reader.readAsDataURL(file);
+    });
+
+  </script></body>
+</html>

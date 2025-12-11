@@ -1,0 +1,33 @@
+/* Popup Notification */
+.popup {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #ffffff20;
+    padding: 12px 20px;
+    border-radius: 12px;
+    backdrop-filter: blur(6px);
+    color: #fff;
+    font-size: 16px;
+    transition: 0.4s;
+    z-index: 1000;
+}
+
+/* Efek klik item */
+.price-list li.active {
+    background: rgba(0, 255, 255, 0.25);
+    border: 1px solid #fff;
+}
+
+/* Fade-in animation */
+.fade {
+    opacity: 0;
+    transform: translateY(25px);
+    transition: all 0.8s ease;
+}
+
+.fade-in {
+    opacity: 1;
+    transform: translateY(0);
+}
